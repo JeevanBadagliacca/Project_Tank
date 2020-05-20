@@ -22,4 +22,6 @@ public:
 	class ATank_C* GetPlayerTank() const;
 
 	virtual void BeginPlay()override;
+
+	virtual void Tick(float DeltaTime) override;
 };

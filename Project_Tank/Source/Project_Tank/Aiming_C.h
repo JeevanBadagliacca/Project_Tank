@@ -16,13 +16,26 @@ public:
 	// Sets default values for this component's properties
 	UAiming_C();
 
+	UPROPERTY(EditAnywhere, Category = "Fuoco")
+		float VelLancio;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
+
+private:
+
+	UStaticMeshComponent* Cannone;
 
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-		
+	void AimAt(FVector HitLocation);
+
+	FORCEINLINE UStaticMeshComponent* GetCannone() { return Cannone; }
+
+	UFUNCTION(BlueprintCallable)
+	void SetCannone(UStaticMeshComponent*CannoneRef);
+
 };

@@ -31,7 +31,9 @@ void ATank_PC::Mira()
 
     if (TrovaVista(HitLocation))
     {
-        UE_LOG(LogTemp, Warning, TEXT("ZonaMirata %s"), *HitLocation.ToString());
+       // UE_LOG(LogTemp, Warning, TEXT("Porca Vacca %s "), *HitLocation.ToString());
+        GetTank()->AimAt(HitLocation);
+        //UE_LOG(LogTemp, Warning, TEXT("Porca Vacca 2 %s "), *HitLocation.ToString());
     }
 }
 
@@ -49,6 +51,8 @@ bool ATank_PC::TrovaVista(FVector& Location)
 
     FVector HitLocation;
     TrovaHit(Direzione, HitLocation);
+
+    Location = HitLocation;
 
     return true;
 }

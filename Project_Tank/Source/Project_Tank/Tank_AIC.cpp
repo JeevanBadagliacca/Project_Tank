@@ -32,6 +32,16 @@ void ATank_AIC::BeginPlay()
     }
 }
 
+void ATank_AIC::Tick(float DeltaTime)
+{
+    Super::Tick(DeltaTime);
+
+    if (GetPlayerTank())
+    {
+        GetTank()->AimAt(GetPlayerTank()->GetActorLocation());
+    }
+}
+
 ATank_C* ATank_AIC::GetTank() const
 {
     return Cast<ATank_C>(GetPawn());

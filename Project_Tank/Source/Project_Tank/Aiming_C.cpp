@@ -2,6 +2,9 @@
 
 
 #include "Aiming_C.h"
+#include "Tank_C.h"
+#include "Kismet/GameplayStatics.h"
+#include "Components/StaticMeshComponent.h"
 
 // Sets default values for this component's properties
 UAiming_C::UAiming_C()
@@ -11,6 +14,8 @@ UAiming_C::UAiming_C()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
+
+	VelLancio = 100000.f;
 }
 
 
@@ -30,5 +35,45 @@ void UAiming_C::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
+}
+
+void UAiming_C::AimAt(FVector HitLocation)
+{
+	//UE_LOG(LogTemp, Warning, TEXT("Porca Troia 2 "));
+	if (!Cannone)return;
+	FVector Velocity;
+	FVector StartLocation = Cannone->GetSocketLocation(FName("Proiettile"));
+	FCollisionResponseParams ResponseParam;
+	TArray < AActor* > Ignore;
+
+	//UE_LOG(LogTemp, Warning, TEXT("Porca Troia "));
+
+	bool results = UGameplayStatics::SuggestProjectileVelocity
+	(
+		this,                  //l'oggetto che esegue       
+		Velocity,              //passata per riferimento direzione da calcolare
+		StartLocation,        
+		HitLocation,
+		VelLancio,            //forza di lancio
+		false,                //arco alto si o no
+		0,                    //eventuale raggio di collisione
+		0,                    //sovrascrivi gravità 
+		ESuggestProjVelocityTraceOption::DoNotTrace,    //parametri del trace 
+		ResponseParam,                                  //risposta del trace
+		Ignore,                                         //ignorati dal trace
+		true                                            //linea di debug
+	);
+
+	if (results)
+	{
+		FVector AimDirection = Velocity.GetSafeNormal();  //Get Safe Normal  trasforma il vettore in vettore normalizzato
+		UE_LOG(LogTemp, Warning, TEXT("Angolazione %s "), *AimDirection.ToString());
+	}
+
+}
+
+void UAiming_C::SetCannone(UStaticMeshComponent* CannoneRef)
+{
+	Cannone=CannoneRef;
 }
 
