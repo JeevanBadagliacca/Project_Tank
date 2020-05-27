@@ -3,7 +3,9 @@
 
 #include "Tank_C.h"
 #include "Aiming_C.h"
-
+#include "MeshTorretta.h"
+#include "Proiettile.h"
+#include "Engine/World.h"
 
 // Sets default values
 ATank_C::ATank_C()
@@ -34,9 +36,27 @@ void ATank_C::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
+void ATank_C::Spara()
+{
+	UE_LOG(LogTemp, Error, TEXT("Sparo a salve"));
+
+		auto Bullet=GetWorld()->SpawnActor<AProiettile>(Projectile1,
+		                                Cannone->GetSocketLocation(FName("Proiettile")), 
+		                                Cannone->GetSocketRotation(FName("Proiettile"))
+									   );
+		Bullet->Lancio(Aiming->VelLancio);
+	
+}
+
 void ATank_C::AimAt(FVector HitLocation)
 {
 	Aiming->AimAt(HitLocation);
 	//UE_LOG(LogTemp, Warning, TEXT("Il Tank %s mira a:%s "), *GetName(), *HitLocation.ToString());
 }
+
+void ATank_C::SetCannone(UMeshTorretta* CannonRef)
+{
+	Cannone = CannonRef;
+}
+
 

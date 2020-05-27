@@ -5,6 +5,7 @@
 #include "Tank_C.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/StaticMeshComponent.h"
+#include "MeshTorretta.h"
 
 // Sets default values for this component's properties
 UAiming_C::UAiming_C()
@@ -58,22 +59,53 @@ void UAiming_C::AimAt(FVector HitLocation)
 		false,                //arco alto si o no
 		0,                    //eventuale raggio di collisione
 		0,                    //sovrascrivi gravità 
-		ESuggestProjVelocityTraceOption::DoNotTrace,    //parametri del trace 
-		ResponseParam,                                  //risposta del trace
-		Ignore,                                         //ignorati dal trace
-		true                                            //linea di debug
+		ESuggestProjVelocityTraceOption::DoNotTrace       //parametri del trace 
+		//ResponseParam,                                  //risposta del trace
+		//Ignore,                                         //ignorati dal trace
+		//true                                            //linea di debug
 	);
 
 	if (results)
 	{
-		FVector AimDirection = Velocity.GetSafeNormal();  //Get Safe Normal  trasforma il vettore in vettore normalizzato
-		UE_LOG(LogTemp, Warning, TEXT("Angolazione %s "), *AimDirection.ToString());
+		RuotaCannone(Velocity);
 	}
+
+	
+}
+
+void UAiming_C::RuotaCannone(FVector& Velocity)
+{
+	FVector AimDirection = Velocity.GetSafeNormal();  //Get Safe Normal  trasforma il vettore in vettore normalizzato
+
+	UE_LOG(LogTemp, Warning, TEXT("Angolazione %s "), *AimDirection.ToString());
+
+	FRotator RotAttuale = Cannone->GetForwardVector().Rotation();
+
+	FRotator RotObiettivo = AimDirection.Rotation();
+
+	FRotator DeltaRot = RotObiettivo - RotAttuale;
+
+	Cannone->Eleva(DeltaRot.Pitch);
+
+	if (FMath::Abs(DeltaRot.Yaw) < 180)
+	{
+		Torretta->Ruota(DeltaRot.Yaw);
+	}
+	else 
+	{
+		Torretta->Ruota(-DeltaRot.Yaw);
+	}
+
 
 }
 
-void UAiming_C::SetCannone(UStaticMeshComponent* CannoneRef)
+void UAiming_C::SetCannone(UMeshTorretta* CannoneRef)
 {
-	Cannone=CannoneRef;
+	Cannone = CannoneRef;
+}
+
+void UAiming_C::SetTorretta(UMeshTorretta* TorreRef)
+{
+	Torretta = TorreRef;
 }
 

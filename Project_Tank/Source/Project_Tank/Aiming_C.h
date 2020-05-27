@@ -7,6 +7,7 @@
 #include "Aiming_C.generated.h"
 
 
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class PROJECT_TANK_API UAiming_C : public UActorComponent
 {
@@ -25,7 +26,9 @@ protected:
 
 private:
 
-	UStaticMeshComponent* Cannone;
+	class UMeshTorretta* Cannone;
+
+	class UMeshTorretta* Torretta;
 
 public:	
 	// Called every frame
@@ -33,9 +36,16 @@ public:
 
 	void AimAt(FVector HitLocation);
 
-	FORCEINLINE UStaticMeshComponent* GetCannone() { return Cannone; }
+	void RuotaCannone(FVector& Velocity);
+
+	FORCEINLINE UMeshTorretta* GetCannone() { return Cannone; }
 
 	UFUNCTION(BlueprintCallable)
-	void SetCannone(UStaticMeshComponent*CannoneRef);
+	void SetCannone(UMeshTorretta*CannoneRef);
+
+	FORCEINLINE UMeshTorretta* GetTorretta() { return Torretta; }
+
+	UFUNCTION(BlueprintCallable)
+		void SetTorretta(UMeshTorretta* TorreRef);
 
 };
