@@ -6,6 +6,12 @@
 #include "Tank_PC.h"
 #include "Engine/World.h"
 
+
+ATank_AIC::ATank_AIC()
+{
+    Timer = FMath::FRandRange(3.f, 6.f);
+}
+
 ATank_C* ATank_AIC::GetPlayerTank() const
 {
     auto controller= GetWorld()->GetFirstPlayerController();
@@ -39,6 +45,12 @@ void ATank_AIC::Tick(float DeltaTime)
     if (GetPlayerTank())
     {
         GetTank()->AimAt(GetPlayerTank()->GetActorLocation());
+        if (Timer > 0) Timer -= DeltaTime;
+        else 
+        {
+            GetTank()->Spara();
+            Timer = FMath::FRandRange(3.f, 6.f);
+        }
     }
 }
 

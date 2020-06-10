@@ -22,10 +22,7 @@ protected:
 	class UMeshTorretta* Cannone=nullptr;
 
 	UPROPERTY(EditAnywhere, Category = "SetUp")
-		UClass *Projectile1;
-
-	UPROPERTY(EditAnywhere, Category = "SetUp")
-		TSubclassOf<class AProiettile> Projectile2;
+		TSubclassOf<class AProiettile> Projectile1;
 
 public:	
 	// Called every frame
@@ -44,4 +41,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		void SetCannone(UMeshTorretta* CannonRef);
+
+	UPROPERTY(EditAnywhere, Category = "SetUp")
+	float ReloadTime;
+
+	float Reload;
+
 };
