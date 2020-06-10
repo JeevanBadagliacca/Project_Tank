@@ -10,6 +10,7 @@
 ATank_AIC::ATank_AIC()
 {
     Timer = FMath::FRandRange(3.f, 6.f);
+    RaggioMax = 3000.f;
 }
 
 ATank_C* ATank_AIC::GetPlayerTank() const
@@ -42,15 +43,20 @@ void ATank_AIC::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 
-    if (GetPlayerTank())
+    auto Bersaglio = GetPlayerTank();
+
+    if (Bersaglio)
     {
-        GetTank()->AimAt(GetPlayerTank()->GetActorLocation());
+        GetTank()->AimAt(Bersaglio->GetActorLocation());
         if (Timer > 0) Timer -= DeltaTime;
         else 
         {
-            GetTank()->Spara();
+            //GetTank()->Spara();
             Timer = FMath::FRandRange(3.f, 6.f);
         }
+
+       auto path = MoveToActor(Bersaglio, RaggioMax);
+       UE_LOG(LogTemp, Warning, TEXT("path =%i"), path);
     }
 }
 

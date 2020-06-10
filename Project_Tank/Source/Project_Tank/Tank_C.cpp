@@ -41,7 +41,7 @@ void ATank_C::Spara()
 {
 	if (Projectile1 && GetWorld() && Reload<=0)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Sparo a salve"));
+		//UE_LOG(LogTemp, Error, TEXT("Sparo a salve"));
 
 		auto Bullet = GetWorld()->SpawnActor<AProiettile>(Projectile1,
 			Cannone->GetSocketLocation(FName("Proiettile")),

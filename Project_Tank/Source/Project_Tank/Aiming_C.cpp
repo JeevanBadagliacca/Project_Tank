@@ -77,7 +77,7 @@ void UAiming_C::RuotaCannone(FVector& Velocity)
 {
 	FVector AimDirection = Velocity.GetSafeNormal();  //Get Safe Normal  trasforma il vettore in vettore normalizzato
 
-	UE_LOG(LogTemp, Warning, TEXT("Angolazione %s "), *AimDirection.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("Angolazione %s "), *AimDirection.ToString());
 
 	FRotator RotAttuale = Cannone->GetForwardVector().Rotation();
 

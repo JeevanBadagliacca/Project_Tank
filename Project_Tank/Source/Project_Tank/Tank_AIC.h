@@ -21,6 +21,9 @@ public:
 
 	ATank_AIC();
 
+	UPROPERTY(EditAnywhere, Category="AI")
+	float RaggioMax;
+
 	class ATank_C* GetTank() const;  //class per non avere l'errore, gli include sono ricorsivi, di solito se ne lasciano minimi neel'header e si usa class
 									//il nome di questa tecnica è Forward Delclaration 
 
@@ -29,4 +32,6 @@ public:
 	virtual void BeginPlay()override;
 
 	virtual void Tick(float DeltaTime) override;
+
+
 };
