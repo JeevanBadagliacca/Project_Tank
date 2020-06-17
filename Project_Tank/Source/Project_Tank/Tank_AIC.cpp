@@ -51,7 +51,7 @@ void ATank_AIC::Tick(float DeltaTime)
         if (Timer > 0) Timer -= DeltaTime;
         else 
         {
-            //GetTank()->Spara();
+            GetTank()->Spara();
             Timer = FMath::FRandRange(3.f, 6.f);
         }
 

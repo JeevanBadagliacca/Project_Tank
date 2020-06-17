@@ -33,5 +33,14 @@ void UMovement::SetCingoli(UMesh_Cingolo* CingoloRefSx, UMesh_Cingolo* CingoloRe
 void UMovement::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
 {
 	//Super::RequestDirectMove(MoveVelocity, bForceMaxSpeed);
-	UE_LOG(LogTemp, Warning, TEXT("%s ha una velocity %s"), *GetOwner()->GetName(),*MoveVelocity.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("%s ha una velocity %s"), *GetOwner()->GetName(),*MoveVelocity.GetSafeNormal().ToString());
+
+	FVector InAvanti = MoveVelocity.GetSafeNormal();
+	FVector TankAvanti = GetOwner()->GetActorForwardVector().GetSafeNormal();
+	float ProdottoScalare = FVector::DotProduct(InAvanti, TankAvanti);
+	MovimentoAvanti(ProdottoScalare);
+
+
+	float ProdottoVettoriale = FVector::CrossProduct(InAvanti, TankAvanti).Z;
+	MovimentoLaterale(ProdottoVettoriale);
 }
